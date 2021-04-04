@@ -1,3 +1,19 @@
+
+;**************************************************************
+;-----------------------macros funciones basicas---------------
+;**************************************************************
+
+
+;macro para impresion 
+;con interrupcion 21H 
+;recibe un "string"
+imprimir macro cadena
+    mov ah, 09h
+    lea dx, cadena
+    int 21h
+endm
+
+
 ;limpia la consola con 
 ;interrupcion 10h
 LimpiarPantalla macro
@@ -8,3 +24,43 @@ LimpiarPantalla macro
     mov ax, 0003h
     int 10h
 endm
+
+
+;me sirve para limpiar var, vec, etc
+;params vector,numBytes, caracter
+limpiarResuVec macro vector, numBy, char
+    LOCAL ciclito
+    push si
+    push cx
+    xor si,si
+    xor cx,cx
+    mov cx,numBy
+    ciclito:
+        mov vector[si],char
+        inc si
+        loop ciclito
+    pop cx
+    pop si
+endm
+
+;convierte letras Mayus a minus
+;params Vector, numBys
+aMinuscula macro Vector, numBYs
+    LOCAL cicloconverMinus, salto
+        mov cx,numBYs
+        xor si,si
+        cicloconverMinus:
+            cmp Vector[si],64;pongo limites inf de < para que salte todos esos
+            jb salto;  < aqui incrementa el si en dado caso no sea letra
+            cmp Vector[si],91; pongo limites superiores para saltar y no tome carcter diferente de letra
+            ja salto; >
+
+            mov al, Vector[si];hago una copia para poder trabjar en la suma
+            add al,32;se suma 32 para obtener la minuscula de esa letra
+            mov Vector[si],al;obtengo la letra ya en minuscula
+
+            salto:;incremento si
+                inc si;si+=si
+            loop cicloconverMinus
+endm
+
