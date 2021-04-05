@@ -13,6 +13,16 @@ imprimir macro cadena
     int 21h
 endm
 
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Esperar Caracter %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+;devueleve codigo ASCII del
+;caracter leido
+getCaracter macro
+    mov ah,01h
+    int 21h
+endm
 
 ;limpia la consola con 
 ;interrupcion 10h
@@ -64,3 +74,32 @@ aMinuscula macro Vector, numBYs
             loop cicloconverMinus
 endm
 
+
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% COPIAR ARREGLO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+;copia arreglos
+;params: VecOriginal, VecCopia,noBytes,PosI,Posf
+CopiarArreglo macro arrayOr,ArrayCo,NoPosI,NoPosF
+    LOCAL Ciclo1,fin
+    push cx
+    push si
+    push bx
+    LimpiarArray ArrayCo, SIZEOF ArrayCo, 24h
+    xor cx,cx
+    mov cl,NoPosF
+    xor si,si
+    mov si,NoPosI
+    Ciclo1:
+        mov al, arrayOr[si]
+        mov ArrayCo[si], al
+        inc si
+        cmp si,cx
+        jb Ciclo1
+
+    fin:
+        pop bx
+        pop si
+        pop cx
+endm

@@ -23,6 +23,21 @@ include entrada.asm
     saveLectura db 30000 dup('$')
     indice db '0', '$'
     handler_entrada dw ? ; esto es por que asm guarda en hex de tipo word cada archivo(? aun no se sabe que tendra)
+    
+    NumerosEntradaCopia db 25 dup ('$');copia del vector anterior
+    TotalNumeros db 0;lleva el contador de numeros registrados 
+    decena db 0ah,'$'
+    subscadena db 30 dup('$')
+    NumerosEntrada db 25 dup ('$');almacena cada numero de la entrada
+    copiaMayor db 25 dup ('$');aqui se hace copia y se ordenan solo sirve para identificar el mayor de los numeros
+
+    ;*****************************ERRORES**********************************
+    ;**lectura
+    err_opcion       db 10,13,"**ERROR, No se digito una opcion valida**",10,13,'$'
+    err1_fichero     db 10,13, "**ERROR, no se puede abrir el archivo, verifique ruta",10,13,'$'
+    err2_fichero     db 10,13, "**ERROR, no se pudo cerrar el archivo",10,13,'$'
+    err3_fichero     db 10,13, "**ERROR, extension de fichero invalida, debe de ser .XML",10,13,'$'    
+    err4_fichero     db 10,13, "**ERROR, no se puede leer el archivo de entrada",10,13,'$'
 
 .code ;segmento de codigo
 main proc
@@ -70,8 +85,95 @@ main proc
         leerFichero SIZEOF saveLectura, saveLectura, handler_entrada;se lee el fichero
 
         aMinuscula saveLectura,SIZEOF saveLectura
+        imprimir saveLectura
+        getCaracter
+        reconocerArchivo saveLectura
+        cerrarFichero handler_entrada
+        mov handler_entrada, 00h
+
+        imprimir NumerosEntrada
+        imprimir nLinea
+        
+
+        getCaracter
+        
+        LimpiarPantalla
+        
+        ;*****AREA DE ANALISIS DE INFO ALMACENADA
+        jmp menuP
+
+;**************************************************************
+;----------------------------ORDENES---------------------------
+;**************************************************************
+    Orders:
+        jmp menuP
 
 
+;**************************************************************
+;----------------------------ORDENES---------------------------
+;**************************************************************
+    Report:
+        jmp menuP
+
+
+;**************************************************************
+;-----------------------------SALIDA---------------------------
+;**************************************************************
+    salir:
+        mov ah, 4ch ;Terminación de Programa con Código de Retorno
+        int 21h
+
+
+
+;**************************************************************
+;-----------------------------DEFAULT--------------------------
+;**************************************************************
+    default:
+        jmp ERROR1
+
+;**************************************************************
+;-----------------------------ERRORES----------------------------
+;**************************************************************
+
+    ;ERROR EN ESCOGER OPCION
+    ERROR1:
+        imprimir err_opcion 
+        imprimir nLinea
+        getCaracter
+        LimpiarPantalla;limpio pantalla y cursos se va hasta 0,0
+        jmp menuP
+    
+    ;ERROR AL ABRIR FICHERO
+    ERROR2:
+        imprimir err1_fichero
+        imprimir nLinea
+        getCaracter
+        LimpiarPantalla;limpio pantalla y cursos se va hasta 0,0
+        jmp menuP
+    
+    ;ERROR AL CERRAR FICHERO
+    ERROR3:
+        imprimir err2_fichero
+        imprimir nLinea
+        getCaracter
+        LimpiarPantalla;limpio pantalla y cursos se va hasta 0,0
+        jmp menuP
+    
+    ;ERROR DE EXTENSION FICHERO
+    ERROR4:
+        imprimir err3_fichero
+        imprimir nLinea
+        getCaracter
+        LimpiarPantalla;limpio pantalla y cursos se va hasta 0,0
+        jmp menuP
+    
+    ;ERROR AL LEER ARCHIVO
+    ERROR5:
+        imprimir err4_fichero
+        imprimir nLinea
+        getCaracter
+        LimpiarPantalla;limpio pantalla y cursos se va hasta 0,0
+        jmp menuP
 
 .exit
 main endp
