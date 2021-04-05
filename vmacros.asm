@@ -80,13 +80,13 @@ endm
 ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 ;copia arreglos
-;params: VecOriginal, VecCopia,noBytes,PosI,Posf
+;params: VecOriginal, VecCopia,PosI,Posf
 CopiarArreglo macro arrayOr,ArrayCo,NoPosI,NoPosF
     LOCAL Ciclo1,fin
     push cx
     push si
     push bx
-    LimpiarArray ArrayCo, SIZEOF ArrayCo, 24h
+   limpiarResuVec ArrayCo, SIZEOF ArrayCo, 24h
     xor cx,cx
     mov cl,NoPosF
     xor si,si

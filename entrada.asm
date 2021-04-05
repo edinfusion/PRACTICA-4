@@ -155,7 +155,7 @@ reconocerArchivo macro VectorIn
     ;aqui almaceno numero por numero de entrada
     add_Numero:
         inc TotalNumeros;contador de numeros
-        copiarNumerosVal NumerosEntrada,VectorIn
+        copiarNumerosVal NumerosEntrada, NumerosEntradaCopia,VectorIn
         mov indice[0],'1'; aca se manda para reconder el ID de operacion
         jmp sal_tar
 
@@ -186,7 +186,7 @@ SaltarChars macro entradaa
         ;inc di
 endm
 
-copiarNumerosVal macro copia,entrada
+copiarNumerosVal macro copia,copia1,entrada
     LOCAL whil_ee, sall_ida
 
     ;push bx
@@ -217,5 +217,66 @@ copiarNumerosVal macro copia,entrada
 
     sall_ida:
         mov copia[bx],cl
+        mov copia1[bx],cl
         ;pop bx
+endm
+
+
+
+
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ORDENAR COPIA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+;params: arrayCopia, tamano
+OrdenarCopia macro arrayCopia,Tamano
+    LOCAL CICLO,WHILITO,SalWhilito,FinCiclo
+
+    mov p_ , 1;p=1.
+    xor bx,bx
+    xor ax,ax
+    mov bh,0000h
+    mov ah,0000h
+
+    CICLO:    
+        mov bl, Tamano
+        cmp p_ , bl;p < array_size;
+        je FinCiclo 
+
+        mov bl, p_
+        mov al,arrayCopia[bx] 
+        mov aux,al         ;aux = A[p];
+
+        mov al,p_
+        mov j_,al                  
+        dec j_            ;j = p-1;
+
+            WHILITO:
+                cmp j_,0 ;a >= 0 
+                jnge SalWhilito
+
+                xor bx,bx
+                mov bl, j_
+                mov al, arrayCopia[bx];a[j]
+                cmp aux,al;(aux<a[j])
+                jge SalWhilito
+
+                xor bx,bx
+                mov bl,j_
+                mov al,arrayCopia[bx]
+                inc bx;j+1
+                mov arrayCopia[bx],al;numbers[a + 1] = numbers[a];
+                dec j_;a--;
+                jmp WHILITO
+            SalWhilito:
+            mov bl, j_
+            inc bl
+            mov al,aux
+            mov arrayCopia[bx],al;numbers[a+1] = index;
+            inc p_ ;i++
+            jmp CICLO
+    
+    FinCiclo:
+
+
 endm
