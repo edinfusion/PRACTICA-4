@@ -103,3 +103,14 @@ CopiarArreglo macro arrayOr,ArrayCo,NoPosI,NoPosF
         pop si
         pop cx
 endm
+
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Obtener Caracter %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+;devueleve codigo ASCII del
+;caracter leido sin mostrarlo en pantalla
+getCaracterSinMostrar macro
+    mov ah,00h
+    int 16h
+endm

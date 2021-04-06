@@ -5,35 +5,49 @@ include macsor.asm
 .model small
 .stack 200h ;segmento de pila
 .data ;segmento de datos
+    ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     ;**********************PANTALLA PRINCIPAL*****************************
+    ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     encabezado db "UNIVERSIDAD DE SAN CARLOS DE GUATEMALA",10,"FACULTAD DE INGENIERIA",10,"ESCUELA DE CIENCIAS Y SISTEMAS",10,"ARQUITECTURA DE COMPUTADORAS Y ENSAMBLADORES 1 A",10,"SECCION A",10,"PRIMER SEMESTRE 2021",10,"EDIN EMANUEL MONTENEGRO VASQUEZ",10,"201709311",10,"PRACTICA 4",10,'$'
     encabezado2 db "%%%%% MENU PRINCIPAL %%%%%%",10,13,'$'
     opciones   db 10,13,"1. Cargar Archivo",10,13,"2. Ordenar",10,13,"3. Generar Reporte",10,13,"4. Salir",10,13,10,13,"Ingrese una opcion: ",'$'
 
+    ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     ;**********************PANTALLA CARGA ARCHIVO**************************
+    ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
     msgIngreseRuta db 10,  "%%%%%%%%%%%%% INGRESE LA RUTA DEL ARCHIVO: ",10,13,'$'
     msg_C_correcto   db 10,13,"%% INFORMACION CARGADA CORRECTAMENTE %%%%%%%%%",10,13,'$'
 
+    ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     ;************************PANTALLA DE ORDENES***************************
-    msgPantallaOrder db  "%%%%%%%%%%%%%% MENU ORDENAR %%%%%%%%%%%%%%",10,13,'$'
-    opsOrders        db 10,13,"1. Ordenamiento BubbleSort ",10,13,"2. Ordenamiento QuickSort",10,13,"3. Ordenamiento ShellSort",10,13,"4. Regresar a Menu principal",10,13,10,13,"Ingrese una opcion: ",'$'
+    ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    msgPantallaOrder db  "%%%%%%%%%%%%%%%%%% MENU ORDENAR %%%%%%%%%%%%%%%%%%%",10,13,'$'
+    msgAscen         db  10,13,"%%%%%%%%%%%%%% ORDENAMIENTOS ASCENDENTES %%%%%%%%%%",10,13,'$'
+    msgDescen         db  10,13,"%%%%%%%%%%%%% ORDENAMIENTOS DESCENDENTES %%%%%%%%%%",10,13,'$'
+    opsOrders        db 10,13,"1. Ordenamiento BubbleSort Ascendente ",10,13,"2. Ordenamiento ShellSort Ascendente ",10,13,"3. Ordenamiento QuickSort Ascendente",10,13,'$'
+    opsOrders2       db 10,13,"4. Ordenamiento BubbleSort Descendente ",10,13,"5. Ordenamiento ShellSort Descendente ",10,13,"6. Ordenamiento QuickSort Descendente",10,13,'$'
+    esogerOp         db 10,13,"7. Regresar a Menu principal",10,13,10,13,"Ingrese una opcion: ",'$'
     msgVelocidad     db 10,13,  "%%%%%%%%%%%%%% INGRESE UNA VELOCIDAD (0-9): ",'$'
     identacion       db  " %%%%%%%",10,13,'$'
     msgDes           db  "%%%%%%%%%%%%%% COMO DESEA ORDENAR %%%%%%%%",10,13,'$'
-    msgBurbuja       db  "%%%%%%%%%%%%%% ORDENAMIENTO BUBBLESORT %%%%%%%%%%%%%%",10,13,'$'
-    msgQuick         db  "%%%%%%%%%%%%%%% ORDENAMIENTO QUICKSORT %%%%%%%%%%%%%%",10,13,'$'
-    msgShell         db  "%%%%%%%%%%%%%%% ORDENAMIENTO SHELLSORT %%%%%%%%%%%%%%",10,13,'$'
+    msgBurbuja       db  "%%%%%%%%%%%%%% ORDENAMIENTO BUBBLESORT ASCENDENTE %%%%%%%%%%%%%%",10,13,'$'
+    msgBurbujaDes       db  "%%%%%%%%%%%%%% ORDENAMIENTO BUBBLESORT DESCENDENTE %%%%%%%%%%%%%%",10,13,'$'
+    msgQuick         db  "%%%%%%%%%%%%%%% ORDENAMIENTO QUICKSORT ASCENDENTE %%%%%%%%%%%%%%",10,13,'$'
+    msgQuickDES         db  "%%%%%%%%%%%%%%% ORDENAMIENTO QUICKSORT DESCENDENTE%%%%%%%%%%%%%%",10,13,'$'
+    msgShell         db  "%%%%%%%%%%%%%%% ORDENAMIENTO SHELLSORT ASCENDENTE %%%%%%%%%%%%%%",10,13,'$'
+    msgShellDES         db  "%%%%%%%%%%%%%%% ORDENAMIENTO SHELLSORT DESCENDENTE %%%%%%%%%%%%%%",10,13,'$'
     opsForma         db 10,13,"1. Descendente",10,13,"2. Ascendente",10,13,10,13, "Ingrese una opcion: ",'$'
     ERROR_OR         db 10,13,"**ERROR, No se digito una opcion valida**",10,13,'$'
 
+    ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     ;********************VARIABLES DE ORDENES****************************
+    ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
     velocidad dw 0,'$'
-    burbujas db 0,'$'
-    orBubble db "BubbleSort",'$'
-    quicks db 0,'$'
-    orQuick db "QuickSort",'$'
-    shells db 0,'$'
-    orShell db "ShellSort",'$'
+    msgVelocidadRelativa db 30h,'$';aqui se usa para cambiar entre 0-9
+    tiempoCeros db "00:00",'$'
+
 
     ;ordenarcopia
     p_ db 0
@@ -64,19 +78,62 @@ include macsor.asm
     primerPasada db 0
     numAnt db 0
     cifras db 0,'$'
-    
 
     ;text barras
     NumPrint db 100 dup('$')
 
+    ;tiempo
+    ValorSegundos db 0
+    SegundosAux dw 0
+    MinutosAux dw 0   
+    Secsprint db 30 dup('$')
+    DosPun db ":","$"
+    Cero db "0","$"
+
+    ;variablesBubble
+    burbujas db 0,'$'
+    orBubble db "Bubble Asc",'$'
+    orBubble2 db "Bubble Des",'$'
+    iteracion db 0
+    permutacion db 0;bool 0=false 1=true
+    actual db 0
+    tempp db 0
+
+    ;variablesQuick
+    quicks db 0,'$'
+    orQuick db "Quick Asc",'$'
+    orQuick2 db "Quick Des",'$'
+    subVector dw 0
+    der dw 0
+    izq dw 0
+    d_er dw 0
+    i_zq dw 0
+    pivote db 0
+
+    ;variablesShell
+    shells db 0,'$'
+    orShell db "Shell Asc",'$'
+    orShell2 db "Shell Des",'$'
+    gap db 0
+    i__ db 0
+    j__ db 0
+    tmp db 0
+    ValorI dw 0
+    ValorJ dw 0
+    increment dw 0
+    temp db 0   
+
+
+
     ;*****************AUXILIAR USO DE PANTALLA GENERAL*********************
     nLinea db 10,'$' ;emula el \n
-
+    ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     ;*****************BUFFER PARA ALMACENAR ENTRADA************************
+    ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     ext_correcta db ".xml$"
     entrada db 50 dup('$')
     extension db 10 dup('$')
-    saveLectura db 30000 dup('$')
+    saveLectura db 3000 dup('$')
     indice db '0', '$'
     handler_entrada dw ? ; esto es por que asm guarda en hex de tipo word cada archivo(? aun no se sabe que tendra)
     
@@ -92,7 +149,9 @@ include macsor.asm
     
     copiaMayor db 25 dup ('$');aqui se hace copia y se ordenan solo sirve para identificar el mayor de los numeros
 
+    ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     ;*****************************ERRORES**********************************
+    ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     ;**lectura
     err_opcion       db 10,13,"**ERROR, No se digito una opcion valida**",10,13,'$'
     err1_fichero     db 10,13, "**ERROR, no se puede abrir el archivo, verifique ruta",10,13,'$'
@@ -169,52 +228,113 @@ main proc
     Orders:
         LimpiarPantalla
         imprimir msgPantallaOrder
-        imprimir opsOrders 
+        imprimir msgAscen 
+        imprimir opsOrders
+        imprimir msgDescen
+        imprimir opsOrders2
+        imprimir esogerOp
         getCaracter ;activa la interrupcion y espera un caracter
         cmp al, '1'
         je burbuja
         cmp al, '2'
-        je quick
-        cmp al, '3'
         je shell
+        cmp al, '3'
+        je quick
         cmp al, '4'
+        je burbujaDES
+        cmp al, '5'
+        je shellDES
+        cmp al, '6'
+        je quickDES
+        cmp al, '7'
         je returns
         jmp dft
             burbuja:
-                mov burbujas,1
+                ;mov burbujas,1
                 LimpiarPantalla
                 imprimir msgBurbuja
                 imprimir msgVelocidad
                 setvelocidad
                 imprimir identacion
-                imprimir opsForma
-                setOrden
-                mov burbujas,0
+                InstruccionesRepetidas arrayBubble,orBubble
+                esperarBarra
+                bubbleSortAsc arrayBubble,TotalNumeros
+                esperarEsc
+                reiniciarContadorTiempo
+                modoTexto
+               ; setOrden
                 jmp Orders
             
+            burbujaDES:
+                LimpiarPantalla
+                imprimir msgBurbujaDES
+                imprimir msgVelocidad
+                setvelocidad
+                imprimir identacion
+                InstruccionesRepetidas arrayBubble,orBubble2
+                esperarBarra
+                bubbleSortDes arrayBubble,TotalNumeros
+                esperarEsc
+                reiniciarContadorTiempo
+                modoTexto
+                jmp Orders
 
             quick:
-                mov quicks,1
                 LimpiarPantalla
                 imprimir msgQuick
                 imprimir msgVelocidad
                 setvelocidad
                 imprimir identacion
-                imprimir opsForma
-                mov quicks,0
+                InstruccionesRepetidas arrayQuick,orQuick
+                esperarBarra
+                QuickSortAsc arrayQuick
+                esperarEsc
+                reiniciarContadorTiempo
+                modoTexto
                 jmp Orders
+            
+            quickDES:
+                LimpiarPantalla
+                imprimir msgQuickDES
+                imprimir msgVelocidad
+                setvelocidad
+                imprimir identacion
+                InstruccionesRepetidas arrayQuick,orQuick2
+                esperarBarra
+                QuickSortDes arrayQuick
+                esperarEsc
+                reiniciarContadorTiempo
+                modoTexto
+                jmp Orders
+
                 
             shell:
-                mov shells,1
                 LimpiarPantalla
                 imprimir msgShell
                 imprimir msgVelocidad
                 setvelocidad
                 imprimir identacion
-                imprimir opsForma
-                mov shells,0
+                InstruccionesRepetidas arrayShell,orShell
+                esperarBarra
+                ShellSortAsc arrayShell,TotalNumeros
+                esperarEsc
+                reiniciarContadorTiempo
+                modoTexto
                 jmp Orders
             
+            shellDES:
+                LimpiarPantalla
+                imprimir msgShellDES
+                imprimir msgVelocidad
+                setvelocidad
+                imprimir identacion
+                InstruccionesRepetidas arrayShell,orShell2
+                esperarBarra
+                ShellSortDes arrayShell,TotalNumeros
+                esperarEsc
+                reiniciarContadorTiempo
+                modoTexto
+                jmp Orders
             returns:
                 LimpiarPantalla;limpio pantalla y cursos se va hasta 0,0
             jmp menuP
