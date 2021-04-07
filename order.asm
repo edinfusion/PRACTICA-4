@@ -1,6 +1,7 @@
 include vmacros.asm
 include entrada.asm
 include macsor.asm
+include report.asm
 
 .model small
 .stack 200h ;segmento de pila
@@ -150,6 +151,27 @@ include macsor.asm
     copiaMayor db 25 dup ('$');aqui se hace copia y se ordenan solo sirve para identificar el mayor de los numeros
 
     ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    ;***********************VARIABLES REPORTE******************************
+    ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    ;CONVERTIR HEXADEC
+    valorDec db 100 dup('$')
+    banderaAscendente db 0 ; si se realiza orden ascedente se activa "1",inactiva "0"
+    banderaDescendente db 0; si se realiza orden descendente se activa "1",inactiva "0"
+    ;vectores que contienen orden ascendente y descendente por quicksort para reporte
+    vecAsc db 25 dup('$')
+    vecDes db 25 dup('$')
+    vectorReporteAsc db 100 dup('$')
+    vectorReporteDes db 100 dup('$')
+    ;velocidades de ordenes
+    velBubble db 30h,'$'
+    velShell db 30h,'$'
+    velQuick db 30h,'$'
+    ;mins y segs reporte
+    MinsRep db 0,'$'
+    SegsRep db 0,'$'
+
+    ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     ;*****************************ERRORES**********************************
     ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     ;**lectura
@@ -210,11 +232,19 @@ main proc
         reconocerArchivo saveLectura
         cerrarFichero handler_entrada
         mov handler_entrada, 00h
-
-        imprimir NumerosEntrada
         imprimir nLinea
+        imprimir NumerosEntrada
         
-        OrdenarCopia NumerosEntradaCopia,TotalNumeros
+        
+        ReporteAscendente NumerosEntradaCopia
+        CopiarArreglo NumerosEntradaCopia,vecAsc,0,TotalNumeros
+        CopiarArreglo NumerosEntradaCopia,vecDes,0,TotalNumeros
+        ReporteDescendente vecDes
+        imprimir nLinea
+        imprimir vecAsc
+        imprimir nLinea
+        imprimir vecDes
+        
         getCaracter
         
         LimpiarPantalla
@@ -250,11 +280,11 @@ main proc
         je returns
         jmp dft
             burbuja:
-                ;mov burbujas,1
+                mov banderaAscendente,1
                 LimpiarPantalla
                 imprimir msgBurbuja
                 imprimir msgVelocidad
-                setvelocidad
+                setvelocidad velBubble
                 imprimir identacion
                 InstruccionesRepetidas arrayBubble,orBubble
                 esperarBarra
@@ -266,10 +296,11 @@ main proc
                 jmp Orders
             
             burbujaDES:
+                mov banderaDescendente,1
                 LimpiarPantalla
                 imprimir msgBurbujaDES
                 imprimir msgVelocidad
-                setvelocidad
+                setvelocidad velBubble
                 imprimir identacion
                 InstruccionesRepetidas arrayBubble,orBubble2
                 esperarBarra
@@ -280,10 +311,11 @@ main proc
                 jmp Orders
 
             quick:
+                mov banderaAscendente,1
                 LimpiarPantalla
                 imprimir msgQuick
                 imprimir msgVelocidad
-                setvelocidad
+                setvelocidad velQuick
                 imprimir identacion
                 InstruccionesRepetidas arrayQuick,orQuick
                 esperarBarra
@@ -294,10 +326,11 @@ main proc
                 jmp Orders
             
             quickDES:
+                mov banderaDescendente,1
                 LimpiarPantalla
                 imprimir msgQuickDES
                 imprimir msgVelocidad
-                setvelocidad
+                setvelocidad velQuick
                 imprimir identacion
                 InstruccionesRepetidas arrayQuick,orQuick2
                 esperarBarra
@@ -306,13 +339,13 @@ main proc
                 reiniciarContadorTiempo
                 modoTexto
                 jmp Orders
-
                 
             shell:
+                mov banderaAscendente,1
                 LimpiarPantalla
                 imprimir msgShell
                 imprimir msgVelocidad
-                setvelocidad
+                setvelocidad velShell
                 imprimir identacion
                 InstruccionesRepetidas arrayShell,orShell
                 esperarBarra
@@ -323,10 +356,11 @@ main proc
                 jmp Orders
             
             shellDES:
+                mov banderaDescendente,1
                 LimpiarPantalla
                 imprimir msgShellDES
                 imprimir msgVelocidad
-                setvelocidad
+                setvelocidad velShell
                 imprimir identacion
                 InstruccionesRepetidas arrayShell,orShell2
                 esperarBarra
@@ -350,6 +384,21 @@ main proc
 ;----------------------------REPORTE---------------------------
 ;**************************************************************
     Report:
+        
+        convertirHexADec vecAsc,vectorReporteAsc
+        convertirHexADec vecDes,vectorReporteDes
+        imprimir nLinea
+        imprimir vectorReporteAsc
+        imprimir nLinea
+        imprimir vectorReporteDes
+        imprimir nLinea
+        ;imprimir MinsRep
+        ;imprimir nLinea
+        ;imprimir SegsRep
+        ;imprimir nLinea
+        ;esto ya hasta el final se desactivan banderas
+        mov banderaAscendente,0
+        mov banderaDescendente,0
         jmp menuP
 
 

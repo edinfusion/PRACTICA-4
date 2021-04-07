@@ -1,7 +1,7 @@
 ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;%%%%%%%%%%%%%%%%%%%%%%%%%%%% ESTABLECE VELOCIDAD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-setvelocidad macro
+setvelocidad macro velRep
     LOCAL vel0,vel1,vel2,vel3,vel4,vel5,vel6,vel7,vel8,vel9,errorr,Fiiiin
     getCaracter
     cmp al, '0'
@@ -29,42 +29,52 @@ setvelocidad macro
     vel0:
         mov velocidad,1600
         mov msgVelocidadRelativa,30h
+        mov velRep,30h
     jmp Fiiiin
     vel1:
         mov velocidad,1500
         mov msgVelocidadRelativa,31h
+        mov velRep,31h
     jmp Fiiiin
     vel2:
         mov velocidad,1400
         mov msgVelocidadRelativa,32h
+        mov velRep,32h
     jmp Fiiiin
     vel3:
         mov velocidad,1300
         mov msgVelocidadRelativa,33h
+        mov velRep,33h
     jmp Fiiiin
     vel4:
         mov velocidad,1000
         mov msgVelocidadRelativa,34h
+        mov velRep,34h
     jmp Fiiiin
     vel5:
         mov velocidad,800
         mov msgVelocidadRelativa,35h
+        mov velRep,35h
     jmp Fiiiin
     vel6:
         mov velocidad,600
         mov msgVelocidadRelativa,36h
+        mov velRep,36h
     jmp Fiiiin
     vel7:
         mov velocidad,400
         mov msgVelocidadRelativa,37h
+        mov velRep,37h
     jmp Fiiiin
     vel8:
         mov velocidad,200
         mov msgVelocidadRelativa,38h
+        mov velRep,38h
     jmp Fiiiin
     vel9:
         mov velocidad,100
         mov msgVelocidadRelativa,39h
+        mov velRep,39h
     jmp Fiiiin
 
     errorr:
@@ -783,7 +793,8 @@ ordenarImpresionTiempo macro
         punteroDSaDatos
 	    prueba2 MinutosAux
         punteroDSaVideo
-	    imprimirEnVideo 0d,34d,Secsprint	
+	    imprimirEnVideo 0d,34d,Secsprint
+        	
     ImprimirSecs:
         imprimirEnVideo 0d,35d,DosPun
         punteroDSaDatos
@@ -1101,6 +1112,7 @@ QuickSortDes macro vector
     cmp ax,dx
     jg Do_Ini
 endm
+
 ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;%%%%%%%%%%%%%%%%%%%%%%%%%%%% QUICKSORT  ASCENDENTE %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
