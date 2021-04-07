@@ -134,7 +134,7 @@ include report.asm
     ext_correcta db ".xml$"
     entrada db 50 dup('$')
     extension db 10 dup('$')
-    saveLectura db 3000 dup('$')
+    saveLectura db 9000 dup('$')
     indice db '0', '$'
     handler_entrada dw ? ; esto es por que asm guarda en hex de tipo word cada archivo(? aun no se sabe que tendra)
     
@@ -163,6 +163,7 @@ include report.asm
     vecDes db 25 dup('$')
     vectorReporteAsc db 100 dup('$')
     vectorReporteDes db 100 dup('$')
+    vectorReporteEntrada db 100 dup('$')
     ;velocidades de ordenes
     velBubble db 30h,'$'
     velShell db 30h,'$'
@@ -170,6 +171,35 @@ include report.asm
     ;mins y segs reporte
     MinsRep db 0,'$'
     SegsRep db 0,'$'
+    ;historial de analisis
+    Historial db 30000 dup('$')
+    ;etiquetas xml
+    sangria db "    ",'$'
+    saltoX db 0ah,'$'
+    tipo db "<Tipo>",'$'
+    palabraasc db "Ascedente",'$'
+    palabradsc db "Descendente",'$'
+    ctipo db "</Tipo>",'$'
+    lEntrada db "<Lista_Entrada>",'$'
+    clEntrada db "</Lista_Entrada>",'$'
+    lOrdenanda db "<Lista_Ordenada>",'$'
+    clOrdenanda db "</Lista_Ordenada>",'$'
+    etBubble db "<Ordenamiento_BubbleSort>",'$'
+    etcBubble db "</Ordenamiento_BubbleSort>",'$'
+    etQuick db "<Ordenamiento_QuickSort>",'$'
+    etcQuick db "</Ordenamiento_QuickSort>",'$'
+    etShell db "<Ordenamiento_ShellSort>",'$'
+    etcShell db "</Ordenamiento_ShellSort>",'$'
+    etVelocidad db "<Velocidad>",'$'
+    etcVelocidad db "</Velocidad>",'$'
+    etTiempo db "<Tiempo>",'$'
+    etcTiempo db "</Tiempo>",'$'
+    etMinutos db "<Minutos>",'$'
+    etcMinutos db "</Minutos>",'$'
+    etSegundos db "<Segundos>",'$'
+    etcSegundos db "</Segundos>",'$'
+
+
 
     ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     ;*****************************ERRORES**********************************
@@ -280,7 +310,9 @@ main proc
         je returns
         jmp dft
             burbuja:
+                agregarTipoAscendente;reporte agrega tipo
                 mov banderaAscendente,1
+                mov banderaDescendente,0
                 LimpiarPantalla
                 imprimir msgBurbuja
                 imprimir msgVelocidad
@@ -290,13 +322,16 @@ main proc
                 esperarBarra
                 bubbleSortAsc arrayBubble,TotalNumeros
                 esperarEsc
+                agregarReporteVelTime etBubble,etcBubble,velBubble
                 reiniciarContadorTiempo
                 modoTexto
                ; setOrden
                 jmp Orders
             
             burbujaDES:
+                agregarTipoDescendente
                 mov banderaDescendente,1
+                mov banderaAscendente,0
                 LimpiarPantalla
                 imprimir msgBurbujaDES
                 imprimir msgVelocidad
@@ -306,12 +341,15 @@ main proc
                 esperarBarra
                 bubbleSortDes arrayBubble,TotalNumeros
                 esperarEsc
+                agregarReporteVelTime etBubble,etcBubble,velBubble
                 reiniciarContadorTiempo
                 modoTexto
                 jmp Orders
 
             quick:
+                agregarTipoAscendente
                 mov banderaAscendente,1
+                mov banderaDescendente,0
                 LimpiarPantalla
                 imprimir msgQuick
                 imprimir msgVelocidad
@@ -321,12 +359,15 @@ main proc
                 esperarBarra
                 QuickSortAsc arrayQuick
                 esperarEsc
+                agregarReporteVelTime etQuick,etcQuick,velQuick
                 reiniciarContadorTiempo
                 modoTexto
                 jmp Orders
             
             quickDES:
+                agregarTipoDescendente
                 mov banderaDescendente,1
+                mov banderaAscendente,0
                 LimpiarPantalla
                 imprimir msgQuickDES
                 imprimir msgVelocidad
@@ -336,12 +377,15 @@ main proc
                 esperarBarra
                 QuickSortDes arrayQuick
                 esperarEsc
+                agregarReporteVelTime etQuick,etcQuick,velQuick
                 reiniciarContadorTiempo
                 modoTexto
                 jmp Orders
                 
             shell:
+                agregarTipoAscendente
                 mov banderaAscendente,1
+                mov banderaDescendente,0
                 LimpiarPantalla
                 imprimir msgShell
                 imprimir msgVelocidad
@@ -351,12 +395,15 @@ main proc
                 esperarBarra
                 ShellSortAsc arrayShell,TotalNumeros
                 esperarEsc
+                agregarReporteVelTime etShell,etcShell,velShell
                 reiniciarContadorTiempo
                 modoTexto
                 jmp Orders
             
             shellDES:
+                agregarTipoDescendente
                 mov banderaDescendente,1
+                mov banderaAscendente,0
                 LimpiarPantalla
                 imprimir msgShellDES
                 imprimir msgVelocidad
@@ -366,6 +413,7 @@ main proc
                 esperarBarra
                 ShellSortDes arrayShell,TotalNumeros
                 esperarEsc
+                agregarReporteVelTime etShell,etcShell,velShell
                 reiniciarContadorTiempo
                 modoTexto
                 jmp Orders
@@ -384,14 +432,20 @@ main proc
 ;----------------------------REPORTE---------------------------
 ;**************************************************************
     Report:
-        
-        convertirHexADec vecAsc,vectorReporteAsc
-        convertirHexADec vecDes,vectorReporteDes
+    ;aqui hay que reiniciar variables de reporte luego de que se genere!!!!*****XXXXXXX****
+        ;mov banderaAscendente,0
+        ;agregarTipoAscendente
         imprimir nLinea
-        imprimir vectorReporteAsc
+        imprimir Historial
         imprimir nLinea
-        imprimir vectorReporteDes
-        imprimir nLinea
+        ;
+        getCaracter
+        ;convertirHexADec vecDes,vectorReporteDes
+        ;imprimir nLinea
+        ;imprimir vectorReporteAsc
+        ;imprimir nLinea
+        ;imprimir vectorReporteDes
+        ;imprimir nLinea
         ;imprimir MinsRep
         ;imprimir nLinea
         ;imprimir SegsRep

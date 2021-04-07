@@ -319,3 +319,156 @@ endm
 ;guardo en ax = 2d
 ;div 10
 ;4.5 = 4 = 
+
+buscarPosicionVacia macro vector
+	LOCAL BuscarPos,SeEncontro
+	xor si,si
+	BuscarPos:
+		cmp vector[si],'$'
+	je SeEncontro
+		inc si
+	jmp BuscarPos
+	SeEncontro:
+
+endm
+
+agregarTipoAscendente macro 
+    ;aqui la bandera debe de estar en 0
+    ;y para la de cierre debe de estar en 1
+    LOCAL estadoBandera, agregarr,Finalizars
+    estadoBandera:
+        cmp banderaAscendente,1
+    je Finalizars
+    agregarr:
+        buscarPosicionVacia Historial
+		agregarEtiquetaXml sangria
+		agregarEtiquetaXml tipo;<tipo>
+		agregarEtiquetaXml palabraasc;<ascendete>
+		agregarEtiquetaXml ctipo;</tipo>
+		agregarEtiquetaXml saltoX
+		agregarEtiquetaXml sangria
+		agregarEtiquetaXml lEntrada;<lista_entrada>
+		convertirHexADec NumerosEntrada,vectorReporteEntrada;revisar si no se afecta el vector original de entrada
+		agregarEtiquetaXml vectorReporteEntrada
+		;convertirHexADec vecAsc,vectorReporteAsc
+		;agregarEtiquetaXml vectorReporteAsc
+		agregarEtiquetaXml clEntrada;</lista_entrada>
+		agregarEtiquetaXml saltoX
+		
+		agregarEtiquetaXml sangria
+		agregarEtiquetaXml lOrdenanda;<lista_ordenada>
+		convertirHexADec vecAsc,vectorReporteAsc
+		agregarEtiquetaXml vectorReporteAsc
+		agregarEtiquetaXml clOrdenanda;</lista_ordenada>
+		agregarEtiquetaXml saltoX
+    Finalizars:
+endm
+
+agregarTipoDescendente macro 
+    ;aqui la bandera debe de estar en 0
+    ;y para la de cierre debe de estar en 1
+    LOCAL estadoBandera, agregarr,Finalizars
+    estadoBandera:
+        cmp banderaDescendente,1
+    je Finalizars
+    agregarr:
+        buscarPosicionVacia Historial
+		agregarEtiquetaXml sangria
+		agregarEtiquetaXml tipo;<tipo>
+		agregarEtiquetaXml palabradsc;<descendete>
+		agregarEtiquetaXml ctipo;</tipo>
+		agregarEtiquetaXml saltoX
+		agregarEtiquetaXml sangria
+		agregarEtiquetaXml lEntrada;<lista_entrada>
+		convertirHexADec NumerosEntrada,vectorReporteEntrada;revisar si no se afecta el vector original de entrada
+		agregarEtiquetaXml vectorReporteEntrada
+		agregarEtiquetaXml clEntrada;</lista_entrada>
+		agregarEtiquetaXml saltoX
+		
+		agregarEtiquetaXml sangria
+		agregarEtiquetaXml lOrdenanda;<lista_ordenada>
+		convertirHexADec vecDes,vectorReporteDes
+		agregarEtiquetaXml vectorReporteDes
+		agregarEtiquetaXml clOrdenanda;</lista_ordenada>
+		agregarEtiquetaXml saltoX
+    Finalizars:
+endm
+
+agregarEtiquetaXml macro etiqueta
+	local pushing, popshing
+	push ax
+	push di
+	xor ax,ax
+	xor di,di
+	pushing:
+		cmp etiqueta[di],'$'
+	je popshing
+		mov al,etiqueta[di]
+		mov Historial[si],al
+		inc si
+		inc di
+	jmp pushing
+		
+	popshing:
+		pop di
+		pop ax
+endm
+
+agregarReporteVelTime macro cadena,fincadena,velor
+	punteroDSaDatos
+	push cx
+	xor cx,cx
+	mov cx,MinutosAux
+	convertirHexADecReport cx
+	pop cx
+	buscarPosicionVacia Historial
+	agregarEtiquetaXml sangria
+	agregarEtiquetaXml cadena;<Ordenamiento_BubbleSort>
+	agregarEtiquetaXml saltoX
+	agregarEtiquetaXml sangria
+	agregarEtiquetaXml sangria
+	agregarEtiquetaXml etVelocidad;"<Velocidad>"
+	agregarEtiquetaXml velor
+	agregarEtiquetaXml etcVelocidad;</Velocidad>
+	agregarEtiquetaXml saltoX
+	agregarEtiquetaXml sangria
+	agregarEtiquetaXml sangria
+	agregarEtiquetaXml etTiempo;<Tiempo>
+	agregarEtiquetaXml saltoX
+	agregarEtiquetaXml sangria
+	agregarEtiquetaXml sangria
+	agregarEtiquetaXml sangria
+	agregarEtiquetaXml etMinutos;<Minutos>
+	agregarEtiquetaXml valorDec
+	agregarEtiquetaXml etcMinutos;</Minutos>
+	push cx
+	xor cx,cx
+	mov cx,SegundosAux
+	convertirHexADecReport cx
+	pop cx
+	agregarEtiquetaXml saltoX
+	agregarEtiquetaXml sangria
+	agregarEtiquetaXml sangria
+	agregarEtiquetaXml sangria
+	agregarEtiquetaXml etSegundos;<Segundos>
+	agregarEtiquetaXml valorDec
+	agregarEtiquetaXml etcSegundos;</Segundos>
+	agregarEtiquetaXml saltoX
+	agregarEtiquetaXml sangria
+	agregarEtiquetaXml sangria
+	agregarEtiquetaXml etcTiempo;</tiempo>
+	agregarEtiquetaXml saltoX
+	agregarEtiquetaXml sangria
+	agregarEtiquetaXml fincadena;</Ordenamiento_BubbleSort>
+	agregarEtiquetaXml saltoX
+endm
+
+
+
+
+
+
+
+;MinsRep
+;SegsRep
+;valorDec
