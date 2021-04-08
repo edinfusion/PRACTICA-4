@@ -41,6 +41,10 @@ include file.asm
     msgShellDES         db  "%%%%%%%%%%%%%%% ORDENAMIENTO SHELLSORT DESCENDENTE %%%%%%%%%%%%%%",10,13,'$'
     opsForma         db 10,13,"1. Descendente",10,13,"2. Ascendente",10,13,10,13, "Ingrese una opcion: ",'$'
     ERROR_OR         db 10,13,"**ERROR, No se digito una opcion valida**",10,13,'$'
+    ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    ;************************PANTALLA DE REPORTE***************************
+    ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    msg_rEP_correcto   db 10,13,"%%%% REPORTE GENERADO CORRECTAMENTE, RUTA: REPORTE/REPORTE.XML %%%%%%%%%",10,13,'$'
 
     ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     ;********************VARIABLES DE ORDENES****************************
@@ -80,6 +84,7 @@ include file.asm
     primerPasada db 0
     numAnt db 0
     cifras db 0,'$'
+    banderaCambiarFila db 0
 
     ;text barras
     NumPrint db 100 dup('$')
@@ -199,7 +204,7 @@ include file.asm
     etcSegundos db "</Segundos>",'$'
     ;variables archivo
     ruta db 'X:\reporte',0
-    repo db 'X:\reporte\rep.xml',0
+    repo db 'X:\reporte\reporte.xml',0
     hanlderrep dw ?
     ;encabezado 
     encabezadoRep db "<Arqui>",10,"  <Encabezado>",10,"       <Universidad>Universidad de San Carlos de Guatemala</Universidad>",10,"       <Facultad>Facultad de Ingenieria</Facultad>",10,"       <Escuela>Ciencias y Sistemas</Escuela>",10,"       <Curso>",10,"           <Nombre>Arquitectura de Computadores y Ensambladores 1</Nombre>",10,"           <Seccion>Seccion A</Seccion>",10,"       </Curso>",10,"       <Ciclo>Primer Semestre 2021</Ciclo>",'$'
@@ -224,7 +229,7 @@ include file.asm
     datosAlumnos db 10,"       <Alumno>",10,"           <Nombre>Edin Emanuel Montenegro Vasquez</Nombre>",10,"           <Carnet>201709311</Carnet>",10,"       </Alumno>"
     etcEncabezado db 10,"  </Encabezado>"
     etResultados db 10, "  <Resultados>",10
-    etcResultados db 10,"  </Resultados>"
+    etcResultados db "  </Resultados>"
     etcArqui db 10,"</Arqui>"
     nsalto db 10,13,' ',10,13,'$'
     ;vector dia
@@ -254,6 +259,8 @@ include file.asm
     ;modreporte
     err1_reporte     db 10,13, "**ERROR, no se puede crear el archivo, verifique ruta",10,13,'$'
     err2_reporte     db 10,13, "**ERROR, no se puede escribir el contenido en fichero",10,13,'$'
+    ;error ordenes
+    err1_orden       db 10,13, "**ERROR, aun no se ah cargado ninguna informacion, verifique",10,13,'$'
 .code ;segmento de codigo
 main proc
     mov ax, @data
@@ -301,34 +308,34 @@ main proc
 
         aMinuscula saveLectura,SIZEOF saveLectura
         imprimir saveLectura
-        getCaracter
+        ;getCaracter
         reconocerArchivo saveLectura
         cerrarFichero handler_entrada
         mov handler_entrada, 00h
         imprimir nLinea
         imprimir NumerosEntrada
         
-        
         ReporteAscendente NumerosEntradaCopia
         CopiarArreglo NumerosEntradaCopia,vecAsc,0,TotalNumeros
         CopiarArreglo NumerosEntradaCopia,vecDes,0,TotalNumeros
         ReporteDescendente vecDes
-        imprimir nLinea
-        imprimir vecAsc
-        imprimir nLinea
-        imprimir vecDes
+        ;imprimir nLinea
+        ;imprimir vecAsc
+        ;imprimir nLinea
+        ;imprimir vecDes
         
+        imprimir msg_C_correcto
         getCaracter
         
         LimpiarPantalla
-        
-        ;*****AREA DE ANALISIS DE INFO ALMACENADA
         jmp menuP
 
 ;**************************************************************
 ;----------------------------ORDENES---------------------------
 ;**************************************************************
     Orders:
+        cmp TotalNumeros,0
+        je ERROR6
         LimpiarPantalla
         imprimir msgPantallaOrder
         imprimir msgAscen 
@@ -476,34 +483,28 @@ main proc
 ;**************************************************************
     Report:
     ;aqui hay que reiniciar variables de reporte luego de que se genere!!!!*****XXXXXXX****
-        ;mov banderaAscendente,0
-        ;agregarTipoAscendente
+        ;obtengo dia,mes,año
         getDia dia_act
         getMes mes_act
         getAnho anho_act
+        ;obtengo hora,min,seg
         getHora hor_act
         getMin min_act
         getSeg seg_act
-        imprimir nLinea
-        imprimir Historial
-        imprimir nLinea
-        ;
-        getCaracter
-        ;convertirHexADec vecDes,vectorReporteDes
         ;imprimir nLinea
-        ;imprimir vectorReporteAsc
+        ;imprimir Historial
         ;imprimir nLinea
-        ;imprimir vectorReporteDes
-        ;imprimir nLinea
-        ;imprimir MinsRep
-        ;imprimir nLinea
-        ;imprimir SegsRep
-        ;imprimir nLinea
-        ;esto ya hasta el final se desactivan banderas
-        obtenerBytes Historial
-        generarReporte ruta,repo,Historial,hanlderrep
+
+        obtenerBytes Historial;obtengo la ultima posicion donde hay datos en vector de historial
+        generarReporte ruta,repo,Historial,hanlderrep;genero reporte
+        ;regreso banderas a default
+        limpiarResuVec Historial, SIZEOF Historial, 24h 
         mov banderaAscendente,0
         mov banderaDescendente,0
+        LimpiarPantalla
+        imprimir msg_rEP_correcto
+        getCaracter
+        LimpiarPantalla
         jmp menuP
 
 
@@ -566,6 +567,15 @@ main proc
         LimpiarPantalla;limpio pantalla y cursos se va hasta 0,0
         jmp menuP
     
+    ;ERROR AL INGRESAR A ORDEN SIN INFORMACION CARGADA
+    ERROR6:
+        imprimir err1_orden
+        imprimir nLinea
+        getCaracter
+        LimpiarPantalla;limpio pantalla y cursos se va hasta 0,0
+        jmp menuP
+    
+
     ;ERROR AL CREAR ARCHIVO DE REPORTE
     ERROR7:
         imprimir err1_reporte

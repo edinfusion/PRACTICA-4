@@ -1,0 +1,38 @@
+<Arqui>
+  <Encabezado>
+       <Universidad>Universidad de San Carlos de Guatemala</Universidad>
+       <Facultad>Facultad de Ingenieria</Facultad>
+       <Escuela>Ciencias y Sistemas</Escuela>
+       <Curso>
+           <Nombre>Arquitectura de Computadores y Ensambladores 1</Nombre>
+           <Seccion>Seccion A</Seccion>
+       </Curso>
+       <Ciclo>Primer Semestre 2021</Ciclo>
+       <Fecha> 
+           <Dia>07</Dia>
+           <Mes>04</Mes>
+           <Año>21</Año>
+       </Fecha> 
+       <Hora>
+           <Hora>24</Hora>           
+           <Minutos>05</Minutos>           
+           <Segundos>46</Segundos>
+       </Hora>
+       <Alumno>
+           <Nombre>Edin Emanuel Montenegro Vasquez</Nombre>
+           <Carnet>201709311</Carnet>
+       </Alumno>
+  </Encabezado>
+  <Resultados>
+       <Tipo>Ascedente</Tipo>
+       <Lista_Entrada>4,10,25,12,77,88,87,80,91,11,80,99,15,29,45,55,2,17,39</Lista_Entrada>
+       <Lista_Ordenada>2,4,10,11,12,15,17,25,29,39,45,55,77,80,80,87,88,91,99</Lista_Ordenada>
+       <Ordenamiento_QuickSort>
+           <Velocidad>9</Velocidad>
+           <Tiempo>
+               <Minutos>0</Minutos>
+               <Segundos>6</Segundos>
+           </Tiempo>
+       </Ordenamiento_QuickSort>
+  </Resultados>
+</Arqui>

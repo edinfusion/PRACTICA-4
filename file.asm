@@ -255,7 +255,7 @@ generarReporte macro ruta, nomarchivo, contenido, handreport
         ;et Resultados </resultados>
         mov ah,40h
         mov bx, handreport
-        mov cx,16
+        mov cx,15
         mov dx, offset etcResultados
         int 21h
 
@@ -274,7 +274,6 @@ generarReporte macro ruta, nomarchivo, contenido, handreport
         mov bx, handreport
         int 21h
         ;mov numBytes,'0'
-
 endm
 
 

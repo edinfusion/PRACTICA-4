@@ -500,12 +500,12 @@ endm
 
 ;modifica la posicion del numero de cada barra
 possText macro 
-    LOCAL compareto,num10,num10aux,num11,num11aux,num12,num12aux,primeraPasada,cambioBanderaCifras,unacifra,cambiarFila,f_i_n
+    LOCAL compareto,num10,num10aux,num11,num11aux,num12,num12aux,primeraPasada,cambioBanderaCifras,unacifra,regresarFila,cambiarFila,f_i_n
     punteroDSaDatos
 
     compareTo:
-        cmp posText,34
-        jge cambiarFila
+        ;cmp posText,34
+        ;jge cambiarFila
         cmp primerPasada,0
         je primeraPasada
         cmp TotalNumeros,10
@@ -521,7 +521,7 @@ possText macro
         inc posText
         inc posText
         inc posText
-        inc posText
+       inc posText
     jmp cambioBanderaCifras
 
     num10aux:
@@ -537,15 +537,17 @@ possText macro
         inc posText
         inc posText
         inc posText
-        inc posText
-
-    jmp cambioBanderaCifras
+        cmp banderaCambiarFila,1
+        je cambiarFila
+    jmp regresarFila
     
     num11aux:
         inc posText
         inc posText
-
-    jmp cambioBanderaCifras
+        inc posText
+        cmp banderaCambiarFila,1
+        je cambiarFila
+    jmp regresarFila
 
     num12:
         cmp numAnt,1
@@ -562,9 +564,14 @@ possText macro
     primeraPasada:
         mov primerPasada,1
         jmp cambioBanderaCifras
+    regresarFila:
+        mov posFilText,22
+        mov banderaCambiarFila,1
+        jmp cambioBanderaCifras
     cambiarFila:
        mov PosFilText, 23
-       mov posText, 1
+       mov banderaCambiarFila,0
+      ; mov posText, 1
     
     cambioBanderaCifras:
         contarCifras
