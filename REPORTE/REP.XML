@@ -14,7 +14,16 @@
            <Año>21</Año>
        </Fecha> 
        <Hora>
-           <Hora>22</Hora>           
-           <Minutos>38</Minutos>           
-           <Segundos>42</Segundos>
+           <Hora>23</Hora>           
+           <Minutos>19</Minutos>           
+           <Segundos>49</Segundos>
        </Hora>
+       <Alumno>
+           <Nombre>Edin Emanuel Montenegro Vasquez</Nombre>
+           <Carnet>201709311</Carnet>
+       </Alumno>
+  </Encabezado>
+  <Resultados>
+
+  </Resultados>
+</Arqui>

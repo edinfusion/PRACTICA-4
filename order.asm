@@ -175,27 +175,27 @@ include file.asm
     ;etiquetas xml
     sangria db "    ",'$'
     saltoX db 0ah,'$'
-    tipo db "<Tipo>",'$'
+    tipo db "   <Tipo>",'$'
     palabraasc db "Ascedente",'$'
     palabradsc db "Descendente",'$'
     ctipo db "</Tipo>",'$'
-    lEntrada db "<Lista_Entrada>",'$'
+    lEntrada db "   <Lista_Entrada>",'$'
     clEntrada db "</Lista_Entrada>",'$'
-    lOrdenanda db "<Lista_Ordenada>",'$'
+    lOrdenanda db "   <Lista_Ordenada>",'$'
     clOrdenanda db "</Lista_Ordenada>",'$'
-    etBubble db "<Ordenamiento_BubbleSort>",'$'
-    etcBubble db "</Ordenamiento_BubbleSort>",'$'
-    etQuick db "<Ordenamiento_QuickSort>",'$'
-    etcQuick db "</Ordenamiento_QuickSort>",'$'
-    etShell db "<Ordenamiento_ShellSort>",'$'
-    etcShell db "</Ordenamiento_ShellSort>",'$'
-    etVelocidad db "<Velocidad>",'$'
+    etBubble db "   <Ordenamiento_BubbleSort>",'$'
+    etcBubble db "   </Ordenamiento_BubbleSort>",'$'
+    etQuick db "   <Ordenamiento_QuickSort>",'$'
+    etcQuick db "   </Ordenamiento_QuickSort>",'$'
+    etShell db "   <Ordenamiento_ShellSort>",'$'
+    etcShell db "   </Ordenamiento_ShellSort>",'$'
+    etVelocidad db "   <Velocidad>",'$'
     etcVelocidad db "</Velocidad>",'$'
-    etTiempo db "<Tiempo>",'$'
-    etcTiempo db "</Tiempo>",'$'
-    etMinutos db "<Minutos>",'$'
+    etTiempo db "   <Tiempo>",'$'
+    etcTiempo db "   </Tiempo>",'$'
+    etMinutos db "   <Minutos>",'$'
     etcMinutos db "</Minutos>",'$'
-    etSegundos db "<Segundos>",'$'
+    etSegundos db "   <Segundos>",'$'
     etcSegundos db "</Segundos>",'$'
     ;variables archivo
     ruta db 'X:\reporte',0
@@ -221,7 +221,11 @@ include file.asm
     etdcMinutos db   "</Minutos>"
     etdSegundos db    "           <Segundos>"
     etdcSegundos db   "</Segundos>"
-
+    datosAlumnos db 10,"       <Alumno>",10,"           <Nombre>Edin Emanuel Montenegro Vasquez</Nombre>",10,"           <Carnet>201709311</Carnet>",10,"       </Alumno>"
+    etcEncabezado db 10,"  </Encabezado>"
+    etResultados db 10, "  <Resultados>",10
+    etcResultados db 10,"  </Resultados>"
+    etcArqui db 10,"</Arqui>"
     nsalto db 10,13,' ',10,13,'$'
     ;vector dia
     dia_act db 2 dup('$'),'$'
@@ -496,7 +500,8 @@ main proc
         ;imprimir SegsRep
         ;imprimir nLinea
         ;esto ya hasta el final se desactivan banderas
-        generarReporte ruta,repo,historial,hanlderrep
+        obtenerBytes Historial
+        generarReporte ruta,repo,Historial,hanlderrep
         mov banderaAscendente,0
         mov banderaDescendente,0
         jmp menuP

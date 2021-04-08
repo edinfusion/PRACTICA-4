@@ -222,7 +222,49 @@ generarReporte macro ruta, nomarchivo, contenido, handreport
         mov bx, handreport
         mov cx,14
         mov dx, offset etcHora
-        int 21h        
+        int 21h   
+
+        ;datos alumno   
+        mov ah,40h
+        mov bx, handreport
+        mov cx,131
+        mov dx, offset datosAlumnos
+        int 21h  
+
+        ;etc encabezado </encabezado>
+        mov ah,40h
+        mov bx, handreport
+        mov cx,16
+        mov dx, offset etcEncabezado
+        int 21h
+
+        ;et Resultados <resultados>
+        mov ah,40h
+        mov bx, handreport
+        mov cx,16
+        mov dx, offset etResultados
+        int 21h
+
+        ;escribir contenido
+        mov ah,40h
+        mov bx, handreport
+        mov cx,si
+        mov dx, offset contenido
+        int 21h
+
+        ;et Resultados </resultados>
+        mov ah,40h
+        mov bx, handreport
+        mov cx,16
+        mov dx, offset etcResultados
+        int 21h
+
+        ;etc Arqui </Arqui>
+        mov ah,40h
+        mov bx, handreport
+        mov cx,9
+        mov dx, offset etcArqui
+        int 21h
 
         ;si no se pudo escribir
         jc ERROR8
@@ -233,4 +275,21 @@ generarReporte macro ruta, nomarchivo, contenido, handreport
         int 21h
         ;mov numBytes,'0'
 
+endm
+
+
+;obtencion de caracteres validos para escribir
+;params variable, contador
+obtenerBytes macro variable
+    LOCAL inicio, fin
+    xor cx,cx
+    xor si,si
+    mov cx,30000
+    inicio:
+        cmp variable[si],'$'
+        je fin
+        inc si
+        loop inicio
+    fin:
+        ;se sale
 endm
