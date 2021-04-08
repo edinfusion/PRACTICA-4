@@ -1,0 +1,20 @@
+<Arqui>
+  <Encabezado>
+       <Universidad>Universidad de San Carlos de Guatemala</Universidad>
+       <Facultad>Facultad de Ingenieria</Facultad>
+       <Escuela>Ciencias y Sistemas</Escuela>
+       <Curso>
+           <Nombre>Arquitectura de Computadores y Ensambladores 1</Nombre>
+           <Seccion>Seccion A</Seccion>
+       </Curso>
+       <Ciclo>Primer Semestre 2021</Ciclo>
+       <Fecha> 
+           <Dia>07</Dia>
+           <Mes>04</Mes>
+           <Año>21</Año>
+       </Fecha> 
+       <Hora>
+           <Hora>22</Hora>           
+           <Minutos>38</Minutos>           
+           <Segundos>42</Segundos>
+       </Hora>

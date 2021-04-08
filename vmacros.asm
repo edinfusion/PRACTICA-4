@@ -114,3 +114,161 @@ getCaracterSinMostrar macro
     mov ah,00h
     int 16h
 endm
+
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% get DIa %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+getDia macro vecDia
+    push ax
+    push bx
+    push dx
+    xor ax,ax
+    xor bx,bx
+        ;******************** DIAS***********************************
+        MOV AH,2AH; interrupcion para obtener fecha
+        INT 21H       ; se obtienen dias a traves de dl
+        MOV AL,DL     ;los muevo a al para poder hacer la conversion con ascii con aam
+        AAM       ;LO QUE HACE ES QUE EN LA PARTE ALTA SE GUARDEN DEL 0 AL 9 AL IGUAL QUE EN LA PARTE BAJA..F POR NO SABERLO ANTES
+        MOV BX,AX ;hago una copia a bx para poder utilizar la conversion 
+        ;CONVER
+        MOV DL,BH      ; SE TOMAN LOS VALORES DE BH
+        ADD DL,30H     ; ASCII OBTENCION CARACTER
+        MOV al,BL      ; BL TOMAN VALORES
+        ADD al,30H     ; ASCII OBTENCION CARACTER
+        ;YA QUE TENGO LOS DIAS COMO DEBEN DE SER LOS ALMACENO
+        mov vecDia[0],dl
+        mov vecDia[1],al
+    pop dx
+    pop bx
+    pop ax
+endm
+
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% get mes %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+getMes macro vecMes
+    push ax
+    push bx
+    push dx
+    xor ax,ax
+    xor bx,bx
+    ;********************MES***********************************
+        MOV AH,2AH    ; se obtienen MESES
+        INT 21H
+        MOV AL,DH     ; MES EN DH
+        AAM       ;LO QUE HACE ES QUE EN LA PARTE ALTA SE GUARDEN DEL 0 AL 9 AL IGUAL QUE EN LA PARTE BAJA..F POR NO SABERLO ANTES
+        MOV BX,AX ;hago una copia a bx para poder utilizar la conversion 
+        ;CONVER
+        MOV DL,BH      ; SE TOMAN LOS VALORES DE BH
+        ADD DL,30H     ; ASCII OBTENCION CARACTER
+        MOV al,BL      ; BL TOMAN VALORES
+        ADD al,30H     ; ASCII OBTENCION CARACTER
+        ;YA QUE TENGO LOS MESES COMO DEBEN DE SER LOS ALMACENO
+        mov vecMes[0],dl
+        mov vecMes[1],al
+    pop dx
+    pop bx
+    pop ax
+endm
+
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% get Año %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+getAnho macro vecAn
+    push ax
+    push bx
+    push dx
+    xor ax,ax
+    xor bx,bx
+;********************AÑO**********************************
+        MOV AH,2AH    ; To get System Date
+        INT 21H
+        ADD CX,0F830H ; AÑO EN CX** PARA QUE NO AFECTE SE ENCONTRO ESTA NEGACION YA QUE SINO NO JALA AAM
+        MOV AX,CX     ; 
+        AAM
+        MOV BX,AX
+        ;DISP
+        ;CONVER
+        MOV DL,BH      ; SE TOMAN LOS VALORES DE BH
+        ADD DL,30H     ; ASCII OBTENCION CARACTER
+        MOV al,BL      ; BL TOMAN VALORES
+        ADD al,30H     ; ASCII OBTENCION CARACTER
+        ;YA QUE TENGO LOS AÑOS COMO DEBEN DE SER LOS ALMACENO
+        mov vecAn[0],dl
+        mov vecAn[1],al
+    pop dx
+    pop bx
+    pop ax
+endm
+
+getHora macro vecHora
+    push ax
+    push bx
+    push dx
+    ;****************HORA******************************
+    MOV AH,2CH    ; interrupcion para obtener hora 21h/2ch
+    INT 21H
+    MOV AL,CH     ; hora se devuelve en en ch, al igual que fecha se hace en aam para corregir el ascii
+    AAM
+    MOV BX,AX
+    ;CONVER
+    MOV DL,BH      ; SE TOMAN LOS VALORES DE BH
+    ADD DL,30H     ; ASCII OBTENCION CARACTER
+    MOV al,BL      ; BL TOMAN VALORES
+    ADD al,30H     ; ASCII OBTENCION CARACTER
+    ;YA QUE TENGO LAS HORAS COMO DEBEN DE SER LOS ALMACENO
+    mov vecHora[0],dl
+    mov vecHora[1],al
+    pop dx
+    pop bx
+    pop ax
+endm
+
+getMin macro vecMin
+    push ax
+    push bx
+    push dx
+    ;************************MINUTOS****************************
+    MOV AH,2CH    ; interrupcion para obtener hora 21h/2ch
+    INT 21H
+    MOV AL,CL     ; MINS se devuelve en en cL
+    AAM
+    MOV BX,AX
+    ;CONVER
+    MOV DL,BH      ; SE TOMAN LOS VALORES DE BH
+    ADD DL,30H     ; ASCII OBTENCION CARACTER
+    MOV al,BL      ; BL TOMAN VALORES
+    ADD al,30H     ; ASCII OBTENCION CARACTER
+    ;YA QUE TENGO LOS MINS COMO DEBEN DE SER LOS ALMACENO
+    mov vecMin[0],dl
+    mov vecMin[1],al
+    pop dx
+    pop bx
+    pop ax
+endm
+
+getSeg macro vecSeg
+    push ax
+    push bx
+    push dx
+    ;************************SEGUNDOS***************************
+    MOV AH,2CH    ; interrupcion para obtener hora 21h/2ch
+    INT 21H
+    MOV AL,DH     ; SEG se devuelve en en DH
+    AAM
+    MOV BX,AX
+    ;CONVER
+    MOV DL,BH      ; SE TOMAN LOS VALORES DE BH
+    ADD DL,30H     ; ASCII OBTENCION CARACTER
+    MOV al,BL      ; BL TOMAN VALORES
+    ADD al,30H     ; ASCII OBTENCION CARACTER
+    ;YA QUE TENGO LOS SEGS COMO DEBEN DE SER LOS ALMACENO
+    mov vecSeg[0],dl
+    mov vecSeg[1],al
+    pop dx
+    pop bx
+    pop ax
+endm

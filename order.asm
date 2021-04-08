@@ -2,6 +2,7 @@ include vmacros.asm
 include entrada.asm
 include macsor.asm
 include report.asm
+include file.asm
 
 .model small
 .stack 200h ;segmento de pila
@@ -124,8 +125,6 @@ include report.asm
     increment dw 0
     temp db 0   
 
-
-
     ;*****************AUXILIAR USO DE PANTALLA GENERAL*********************
     nLinea db 10,'$' ;emula el \n
     ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -198,6 +197,44 @@ include report.asm
     etcMinutos db "</Minutos>",'$'
     etSegundos db "<Segundos>",'$'
     etcSegundos db "</Segundos>",'$'
+    ;variables archivo
+    ruta db 'X:\reporte',0
+    repo db 'X:\reporte\rep.xml',0
+    hanlderrep dw ?
+    ;encabezado 
+    encabezadoRep db "<Arqui>",10,"  <Encabezado>",10,"       <Universidad>Universidad de San Carlos de Guatemala</Universidad>",10,"       <Facultad>Facultad de Ingenieria</Facultad>",10,"       <Escuela>Ciencias y Sistemas</Escuela>",10,"       <Curso>",10,"           <Nombre>Arquitectura de Computadores y Ensambladores 1</Nombre>",10,"           <Seccion>Seccion A</Seccion>",10,"       </Curso>",10,"       <Ciclo>Primer Semestre 2021</Ciclo>",'$'
+    ;fecha
+    etFecha db  "       <Fecha>"
+    etcFecha db "       </Fecha>"
+    etDia db    "           <Dia>"
+    etcDia db   "</Dia>"
+    etMes db    "           <Mes>"
+    etcMes db   "</Mes>"
+    etAno db    "           <Año>"
+    etcAno db   "</Año>"
+    ;hora
+    etHora db  "       <Hora>"
+    etcHora db "       </Hora>"
+    etdHora db    "           <Hora>"
+    etdcHora db   "</Hora>"
+    etdMinutos db    "           <Minutos>"
+    etdcMinutos db   "</Minutos>"
+    etdSegundos db    "           <Segundos>"
+    etdcSegundos db   "</Segundos>"
+
+    nsalto db 10,13,' ',10,13,'$'
+    ;vector dia
+    dia_act db 2 dup('$'),'$'
+    ;vector mes
+    mes_act db 2 dup('$'),'$'
+    ;vector año
+    anho_act db 2 dup('$'),'$'
+    ;vector hora
+    hor_act db 2 dup('$'),'$'
+    ;vector min
+    min_act db 2 dup('$'),'$'
+    ;vector seg
+    seg_act db 2 dup('$'),'$'
 
 
 
@@ -210,7 +247,9 @@ include report.asm
     err2_fichero     db 10,13, "**ERROR, no se pudo cerrar el archivo",10,13,'$'
     err3_fichero     db 10,13, "**ERROR, extension de fichero invalida, debe de ser .XML",10,13,'$'    
     err4_fichero     db 10,13, "**ERROR, no se puede leer el archivo de entrada",10,13,'$'
-
+    ;modreporte
+    err1_reporte     db 10,13, "**ERROR, no se puede crear el archivo, verifique ruta",10,13,'$'
+    err2_reporte     db 10,13, "**ERROR, no se puede escribir el contenido en fichero",10,13,'$'
 .code ;segmento de codigo
 main proc
     mov ax, @data
@@ -435,6 +474,12 @@ main proc
     ;aqui hay que reiniciar variables de reporte luego de que se genere!!!!*****XXXXXXX****
         ;mov banderaAscendente,0
         ;agregarTipoAscendente
+        getDia dia_act
+        getMes mes_act
+        getAnho anho_act
+        getHora hor_act
+        getMin min_act
+        getSeg seg_act
         imprimir nLinea
         imprimir Historial
         imprimir nLinea
@@ -451,6 +496,7 @@ main proc
         ;imprimir SegsRep
         ;imprimir nLinea
         ;esto ya hasta el final se desactivan banderas
+        generarReporte ruta,repo,historial,hanlderrep
         mov banderaAscendente,0
         mov banderaDescendente,0
         jmp menuP
@@ -511,6 +557,18 @@ main proc
     ERROR5:
         imprimir err4_fichero
         imprimir nLinea
+        getCaracter
+        LimpiarPantalla;limpio pantalla y cursos se va hasta 0,0
+        jmp menuP
+    
+    ;ERROR AL CREAR ARCHIVO DE REPORTE
+    ERROR7:
+        imprimir err1_reporte
+        getCaracter
+        LimpiarPantalla;limpio pantalla y cursos se va hasta 0,0
+        jmp menuP
+    ERROR8:
+        imprimir err2_reporte
         getCaracter
         LimpiarPantalla;limpio pantalla y cursos se va hasta 0,0
         jmp menuP
