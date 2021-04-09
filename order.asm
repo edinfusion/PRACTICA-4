@@ -334,6 +334,8 @@ main proc
         ;imprimir vecDes
         
         imprimir msg_C_correcto
+        mov banderaAscendente,0
+        mov banderaDescendente,0
         getCaracter
         
         LimpiarPantalla

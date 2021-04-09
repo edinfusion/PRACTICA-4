@@ -15,8 +15,8 @@
        </Fecha> 
        <Hora>
            <Hora>18</Hora>           
-           <Minutos>19</Minutos>           
-           <Segundos>36</Segundos>
+           <Minutos>27</Minutos>           
+           <Segundos>43</Segundos>
        </Hora>
        <Alumno>
            <Nombre>Edin Emanuel Montenegro Vasquez</Nombre>
@@ -25,28 +25,24 @@
   </Encabezado>
   <Resultados>
        <Tipo>Ascedente</Tipo>
-       <Lista_Entrada>4,10,25,12,77,88,87,80,91,4,77,88,22,22,3,63,55,56,66</Lista_Entrada>
-       <Lista_Ordenada>3,4,4,10,12,22,22,25,55,56,63,66,77,77,80,87,88,88,91</Lista_Ordenada>
+       <Lista_Entrada>4,10,25,12,77,88,87,80,91,11,80,99,15,29,45,55</Lista_Entrada>
+       <Lista_Ordenada>4,10,11,12,15,25,29,45,55,77,80,80,87,88,91,99</Lista_Ordenada>
        <Ordenamiento_QuickSort>
-           <Velocidad>7</Velocidad>
+           <Velocidad>6</Velocidad>
            <Tiempo>
                <Minutos>0</Minutos>
-               <Segundos>10</Segundos>
+               <Segundos>7</Segundos>
            </Tiempo>
        </Ordenamiento_QuickSort>
+       <Tipo>Ascedente</Tipo>
+       <Lista_Entrada>4,10,25,12,77,88,87,80,91,4</Lista_Entrada>
+       <Lista_Ordenada>4,4,10,12,25,77,80,87,88,91</Lista_Ordenada>
        <Ordenamiento_QuickSort>
-           <Velocidad>5</Velocidad>
+           <Velocidad>6</Velocidad>
            <Tiempo>
                <Minutos>0</Minutos>
-               <Segundos>17</Segundos>
+               <Segundos>4</Segundos>
            </Tiempo>
        </Ordenamiento_QuickSort>
-       <Ordenamiento_BubbleSort>
-           <Velocidad>7</Velocidad>
-           <Tiempo>
-               <Minutos>0</Minutos>
-               <Segundos>30</Segundos>
-           </Tiempo>
-       </Ordenamiento_BubbleSort>
   </Resultados>
 </Arqui>
