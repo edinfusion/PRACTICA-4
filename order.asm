@@ -10,6 +10,7 @@ include file.asm
     ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     ;**********************PANTALLA PRINCIPAL*****************************
     ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
     encabezado db "UNIVERSIDAD DE SAN CARLOS DE GUATEMALA",10,"FACULTAD DE INGENIERIA",10,"ESCUELA DE CIENCIAS Y SISTEMAS",10,"ARQUITECTURA DE COMPUTADORAS Y ENSAMBLADORES 1 A",10,"SECCION A",10,"PRIMER SEMESTRE 2021",10,"EDIN EMANUEL MONTENEGRO VASQUEZ",10,"201709311",10,"PRACTICA 4",10,'$'
     encabezado2 db "%%%%% MENU PRINCIPAL %%%%%%",10,13,'$'
     opciones   db 10,13,"1. Cargar Archivo",10,13,"2. Ordenar",10,13,"3. Generar Reporte",10,13,"4. Salir",10,13,10,13,"Ingrese una opcion: ",'$'
@@ -24,6 +25,7 @@ include file.asm
     ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     ;************************PANTALLA DE ORDENES***************************
     ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
     msgPantallaOrder db  "%%%%%%%%%%%%%%%%%% MENU ORDENAR %%%%%%%%%%%%%%%%%%%",10,13,'$'
     msgAscen         db  10,13,"%%%%%%%%%%%%%% ORDENAMIENTOS ASCENDENTES %%%%%%%%%%",10,13,'$'
     msgDescen         db  10,13,"%%%%%%%%%%%%% ORDENAMIENTOS DESCENDENTES %%%%%%%%%%",10,13,'$'
@@ -41,9 +43,11 @@ include file.asm
     msgShellDES         db  "%%%%%%%%%%%%%%% ORDENAMIENTO SHELLSORT DESCENDENTE %%%%%%%%%%%%%%",10,13,'$'
     opsForma         db 10,13,"1. Descendente",10,13,"2. Ascendente",10,13,10,13, "Ingrese una opcion: ",'$'
     ERROR_OR         db 10,13,"**ERROR, No se digito una opcion valida**",10,13,'$'
+
     ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     ;************************PANTALLA DE REPORTE***************************
     ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
     msg_rEP_correcto   db 10,13,"%%%% REPORTE GENERADO CORRECTAMENTE, RUTA: REPORTE/REPORTE.XML %%%%%%%%%",10,13,'$'
 
     ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -132,9 +136,11 @@ include file.asm
 
     ;*****************AUXILIAR USO DE PANTALLA GENERAL*********************
     nLinea db 10,'$' ;emula el \n
+
     ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     ;*****************BUFFER PARA ALMACENAR ENTRADA************************
     ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
     ext_correcta db ".xml$"
     entrada db 50 dup('$')
     extension db 10 dup('$')
@@ -246,10 +252,10 @@ include file.asm
     seg_act db 2 dup('$'),'$'
 
 
-
     ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     ;*****************************ERRORES**********************************
     ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
     ;**lectura
     err_opcion       db 10,13,"**ERROR, No se digito una opcion valida**",10,13,'$'
     err1_fichero     db 10,13, "**ERROR, no se puede abrir el archivo, verifique ruta",10,13,'$'
@@ -261,12 +267,15 @@ include file.asm
     err2_reporte     db 10,13, "**ERROR, no se puede escribir el contenido en fichero",10,13,'$'
     ;error ordenes
     err1_orden       db 10,13, "**ERROR, aun no se ah cargado ninguna informacion, verifique",10,13,'$'
+
 .code ;segmento de codigo
 main proc
+
     mov ax, @data
     mov ds, ax
     mov di,0
     LimpiarPantalla
+
 ;**************************************************************
 ;-------------------------Menú principal-----------------------
 ;**************************************************************

@@ -482,7 +482,9 @@ ConvertirPrint macro
                 cmp al,0                   
                 je FIN2                  
                 mov NumPrint[si],al          
-                inc si                            
+                inc si 
+                mov NumPrint[si],'$'         
+                inc si                        
                 jmp toNum2                 
             casoMinimo2:
                 add al,48d                     
@@ -500,90 +502,226 @@ endm
 
 ;modifica la posicion del numero de cada barra
 possText macro 
-    LOCAL compareto,num10,num10aux,num11,num11aux,num12,num12aux,primeraPasada,cambioBanderaCifras,unacifra,regresarFila,cambiarFila,f_i_n
+    LOCAL compareto,num10,num10aux,num11,num11aux,num12,num13,num13aux,num14,num14aux,num15,num15aux,num16,num16aux,num17,num17aux,num18,num18aux,num19,num19aux,primeraPasada,f_i_n
     punteroDSaDatos
 
     compareTo:
         ;cmp posText,34
         ;jge cambiarFila
+        inc cifras
         cmp primerPasada,0
-        je primeraPasada
+        je  primeraPasada
         cmp TotalNumeros,10
-        je num10
+        je  num10
         cmp TotalNumeros,11
-        je num11
+        je  num11
         cmp TotalNumeros,12
-        jge num12
+        je num12
+        cmp TotalNumeros,13
+        je num13
+        cmp TotalNumeros,14
+        je num14
+        cmp TotalNumeros,15
+        je num15
+        cmp TotalNumeros,16
+        je num16
+        cmp TotalNumeros,17
+        je num17
+        cmp TotalNumeros,18
+        je num18
+        cmp TotalNumeros,19
+        je num19
     
+    ;con 10 ya quedo
     num10:
-        cmp numAnt,1
-    je num10aux
+        cmp cifras,5
+        je num10aux
+        cmp cifras,8
+        je num10aux
         inc posText
         inc posText
         inc posText
-       inc posText
-    jmp cambioBanderaCifras
+        inc posText
+    jmp f_i_n
 
     num10aux:
         inc posText
         inc posText
         inc posText
         ;inc posText
-    jmp cambioBanderaCifras
+    jmp f_i_n
 
+    ;con 11 ya quedo
     num11:
-        cmp numAnt,1
-    je num11aux
+        cmp cifras,4
+        je  num11aux
+        cmp cifras,5
+        je  num11aux
+        cmp cifras,7
+        jge  num11aux
         inc posText
         inc posText
         inc posText
-        cmp banderaCambiarFila,1
-        je cambiarFila
-    jmp regresarFila
-    
+        inc posText
+        ;cmp banderaCambiarFila,1
+        ;je  cambiarFila
+    jmp f_i_n
+
     num11aux:
         inc posText
         inc posText
         inc posText
-        cmp banderaCambiarFila,1
-        je cambiarFila
-    jmp regresarFila
-
+        ;inc posText
+    jmp f_i_n
+    ;con 12 ya quedo
     num12:
-        cmp numAnt,1
-    je num12aux
         inc posText
         inc posText
         inc posText
-    jmp cambioBanderaCifras
+    jmp f_i_n
 
-    num12aux:
+    ;13 ya quedo
+    num13:
+        cmp cifras,7
+        je  num13aux
         inc posText
         inc posText
-    jmp cambioBanderaCifras
+        inc posText
+    jmp f_i_n
+    num13aux:
+        inc posText
+        inc posText
+    jmp f_i_n
+    ;con 14 ya quedo
+    num14:
+        cmp cifras,3
+        je  num14aux
+        cmp cifras,6
+        je  num14aux
+        cmp cifras,8
+        je  num14aux
+        cmp cifras,10
+        je  num14aux
+        cmp cifras,12
+        je  num14aux
+        inc posText
+        inc posText
+        inc posText
+    jmp f_i_n
+    num14aux:
+        inc posText
+        inc posText
+    jmp f_i_n
+    ;con 15 ya quedo
+    num15:
+        cmp cifras,3
+        je  num15aux
+        cmp cifras,5
+        je  num15aux
+        cmp cifras,6
+        je  num15aux
+        cmp cifras,8
+        je  num15aux
+        cmp cifras,10
+        je  num15aux
+        cmp cifras,11
+        je  num15aux
+        cmp cifras,13
+        je  num15aux
+        inc posText
+        inc posText
+        inc posText
+        ;inc posText
+    jmp f_i_n
+    num15aux:
+        inc posText
+        inc posText
+    jmp f_i_n
+    ;con 16 ya quedo
+    num16:
+        cmp cifras,3
+        je  num16aux
+        cmp cifras,4
+        je  num16aux
+        cmp cifras,6
+        je  num16aux
+        cmp cifras,7
+        je  num16aux
+        cmp cifras,8
+        je  num16aux
+        cmp cifras,9
+        je  num16aux
+        cmp cifras,10
+        je  num16aux
+        cmp cifras,12
+        je  num16aux
+        cmp cifras,14
+        je  num16aux
+        cmp cifras,15
+        je  num16aux
+        inc posText
+        inc posText
+        inc posText
+        ;inc posText
+    jmp f_i_n
+    num16aux:
+        inc posText
+        inc posText
+    jmp f_i_n
+;con 17 ya quedo
+    num17:
+        cmp cifras,3
+        je num17aux
+        cmp cifras,4
+        je num17aux
+        cmp cifras,5
+        je num17aux
+        cmp cifras,6
+        je num17aux
+        cmp cifras,7
+        je num17aux
+        cmp cifras,8
+        je num17aux
+        cmp cifras,10
+        jge num17aux
+
+        inc posText
+        inc posText
+        inc posText
+        ;inc posText
+    jmp f_i_n
+    num17aux:
+        inc posText
+        inc posText
+    jmp f_i_n
+    num18:
+        cmp cifras,3
+        jge num18aux
+
+        inc posText
+        inc posText
+        inc posText
+        ;inc posText
+    jmp f_i_n
+    num18aux:
+        inc posText
+        inc posText
+    jmp f_i_n
+
+    num19:
+        cmp cifras,10
+        je num19aux
+        inc posText
+        inc posText
+    jmp f_i_n
+    num19aux:
+        inc posText
+    jmp f_i_n
+
     primeraPasada:
         mov primerPasada,1
-        jmp cambioBanderaCifras
-    regresarFila:
-        mov posFilText,22
-        mov banderaCambiarFila,1
-        jmp cambioBanderaCifras
-    cambiarFila:
-       mov PosFilText, 23
-       mov banderaCambiarFila,0
-      ; mov posText, 1
-    
-    cambioBanderaCifras:
-        contarCifras
-        cmp cifras,1
-    je unacifra
-        mov numAnt,2
-        jmp f_i_n
-    
-    unacifra:
-        mov numAnt,1
+
     f_i_n:
-        mov cifras,0
 endm
 
 contarCifras macro 
@@ -631,7 +769,8 @@ dibujarArreglo macro arreglo
         SetAltura arreglo[di]
         prueba arreglo[di]
         possText
-        imprimirEnVideo PosFilText,posText, NumPrint
+        imprimirEnVideo PosFilText,posText, NumPrint[0]
+        imprimirEnVideo 23,posText, NumPrint[2]
         dibujarBarra AlturaAux
         inc di
         cmp di,ax
@@ -1021,6 +1160,7 @@ QuickSortDes macro vector
     punteroDSaDatos
     mov subVector,0
     mov dx,0
+    mov cx,0
     mov cl,TotalNumeros;esto obtiene el total de posiciones utilizadas en array
     dec cx;como empieza en cero el indice se decrementa
     push dx ;izquierda
@@ -1129,6 +1269,7 @@ QuickSortAsc macro vector
     punteroDSaDatos
     mov subVector,0
     mov dx,0
+    mov cx,0
     mov cl,TotalNumeros;esto obtiene el total de posiciones utilizadas en array
     dec cx;como empieza en cero el indice se decrementa
     push dx ;izquierda

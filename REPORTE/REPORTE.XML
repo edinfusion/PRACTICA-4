@@ -9,14 +9,14 @@
        </Curso>
        <Ciclo>Primer Semestre 2021</Ciclo>
        <Fecha> 
-           <Dia>07</Dia>
+           <Dia>08</Dia>
            <Mes>04</Mes>
            <Año>21</Año>
        </Fecha> 
        <Hora>
-           <Hora>24</Hora>           
-           <Minutos>05</Minutos>           
-           <Segundos>46</Segundos>
+           <Hora>18</Hora>           
+           <Minutos>19</Minutos>           
+           <Segundos>36</Segundos>
        </Hora>
        <Alumno>
            <Nombre>Edin Emanuel Montenegro Vasquez</Nombre>
@@ -25,14 +25,28 @@
   </Encabezado>
   <Resultados>
        <Tipo>Ascedente</Tipo>
-       <Lista_Entrada>4,10,25,12,77,88,87,80,91,11,80,99,15,29,45,55,2,17,39</Lista_Entrada>
-       <Lista_Ordenada>2,4,10,11,12,15,17,25,29,39,45,55,77,80,80,87,88,91,99</Lista_Ordenada>
+       <Lista_Entrada>4,10,25,12,77,88,87,80,91,4,77,88,22,22,3,63,55,56,66</Lista_Entrada>
+       <Lista_Ordenada>3,4,4,10,12,22,22,25,55,56,63,66,77,77,80,87,88,88,91</Lista_Ordenada>
        <Ordenamiento_QuickSort>
-           <Velocidad>9</Velocidad>
+           <Velocidad>7</Velocidad>
            <Tiempo>
                <Minutos>0</Minutos>
-               <Segundos>6</Segundos>
+               <Segundos>10</Segundos>
            </Tiempo>
        </Ordenamiento_QuickSort>
+       <Ordenamiento_QuickSort>
+           <Velocidad>5</Velocidad>
+           <Tiempo>
+               <Minutos>0</Minutos>
+               <Segundos>17</Segundos>
+           </Tiempo>
+       </Ordenamiento_QuickSort>
+       <Ordenamiento_BubbleSort>
+           <Velocidad>7</Velocidad>
+           <Tiempo>
+               <Minutos>0</Minutos>
+               <Segundos>30</Segundos>
+           </Tiempo>
+       </Ordenamiento_BubbleSort>
   </Resultados>
 </Arqui>
