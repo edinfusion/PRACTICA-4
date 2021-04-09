@@ -14,9 +14,9 @@
            <Año>21</Año>
        </Fecha> 
        <Hora>
-           <Hora>18</Hora>           
-           <Minutos>27</Minutos>           
-           <Segundos>43</Segundos>
+           <Hora>23</Hora>           
+           <Minutos>29</Minutos>           
+           <Segundos>40</Segundos>
        </Hora>
        <Alumno>
            <Nombre>Edin Emanuel Montenegro Vasquez</Nombre>
@@ -27,6 +27,20 @@
        <Tipo>Ascedente</Tipo>
        <Lista_Entrada>4,10,25,12,77,88,87,80,91,11,80,99,15,29,45,55</Lista_Entrada>
        <Lista_Ordenada>4,10,11,12,15,25,29,45,55,77,80,80,87,88,91,99</Lista_Ordenada>
+       <Ordenamiento_BubbleSort>
+           <Velocidad>6</Velocidad>
+           <Tiempo>
+               <Minutos>0</Minutos>
+               <Segundos>22</Segundos>
+           </Tiempo>
+       </Ordenamiento_BubbleSort>
+       <Ordenamiento_ShellSort>
+           <Velocidad>6</Velocidad>
+           <Tiempo>
+               <Minutos>0</Minutos>
+               <Segundos>10</Segundos>
+           </Tiempo>
+       </Ordenamiento_ShellSort>
        <Ordenamiento_QuickSort>
            <Velocidad>6</Velocidad>
            <Tiempo>
@@ -34,14 +48,28 @@
                <Segundos>7</Segundos>
            </Tiempo>
        </Ordenamiento_QuickSort>
-       <Tipo>Ascedente</Tipo>
-       <Lista_Entrada>4,10,25,12,77,88,87,80,91,4</Lista_Entrada>
-       <Lista_Ordenada>4,4,10,12,25,77,80,87,88,91</Lista_Ordenada>
+       <Tipo>Descendente</Tipo>
+       <Lista_Entrada>4,10,25,12,77,88,87,80,91,11,80,99,15,29,45,55</Lista_Entrada>
+       <Lista_Ordenada>99,91,88,87,80,80,77,55,45,29,25,15,12,11,10,4</Lista_Ordenada>
+       <Ordenamiento_BubbleSort>
+           <Velocidad>6</Velocidad>
+           <Tiempo>
+               <Minutos>0</Minutos>
+               <Segundos>39</Segundos>
+           </Tiempo>
+       </Ordenamiento_BubbleSort>
+       <Ordenamiento_ShellSort>
+           <Velocidad>6</Velocidad>
+           <Tiempo>
+               <Minutos>0</Minutos>
+               <Segundos>13</Segundos>
+           </Tiempo>
+       </Ordenamiento_ShellSort>
        <Ordenamiento_QuickSort>
            <Velocidad>6</Velocidad>
            <Tiempo>
                <Minutos>0</Minutos>
-               <Segundos>4</Segundos>
+               <Segundos>10</Segundos>
            </Tiempo>
        </Ordenamiento_QuickSort>
   </Resultados>
