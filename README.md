@@ -1,8 +1,8 @@
-![](media/image1.png){width="7.5in" height="6.25in"}
+![](media/image1.png)
 
 
 
-# Contenido {#contenido .TOC-Heading}
+
 
 [INGRESO A APLICACIÓN 3](#ingreso-a-aplicación)
 
